@@ -1,0 +1,14 @@
+---
+
+- name: update & upgrade linux
+  gather_facts: false
+  hosts: all
+  remote_user: root
+  tasks:
+
+    - name: Hacer update
+      apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 #One day  
+

@@ -1,0 +1,25 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: instalar curl 
+      apt:
+        name: curl
+        state: present
+
+    - name: Descargar y guardar jenkins
+      ansible.builtin.get_url:
+        url: https://get.jenkins.io/war-stable/2.361.1/jenkins.war
+        dest: /etc/jenkins.war
+
+    - name: update and upgrade
+      upgrade: yes
+      update_cache: yes
+      cache_valid_time: 86400 # Un dia
+
+    - name: instalar java
+      apt:
+        name: openjdk-11-jre
+        state: latest
+
+      
