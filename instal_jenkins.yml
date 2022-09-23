@@ -22,4 +22,7 @@
         name: openjdk-11-jre
         state: latest
 
+    - name: Ejcutar jenkins
+      ansible.builtin.shell: java -jar /etc/jenkins.war
+
       
