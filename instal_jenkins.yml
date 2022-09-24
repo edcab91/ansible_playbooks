@@ -13,9 +13,10 @@
         dest: /etc/jenkins.war
 
     - name: update and upgrade
-      upgrade: yes
-      update_cache: yes
-      cache_valid_time: 86400 # Un dia
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 # Un dia
 
     - name: instalar java
       apt:
