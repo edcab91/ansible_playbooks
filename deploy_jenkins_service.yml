@@ -1,4 +1,6 @@
 ---
+#Author: Edgardo
+#Ultima Modificacion: Lunes 26/09/22
 - hosts: all
   become: true
   tasks:
@@ -34,8 +36,12 @@
 
     - name: Iniciar jenkins
       ansible.builtin.shell: systemctl start jenkins
+      register: mypass
+    
+    - debug:
+             msg: "{{ mypass }}"
 
-    - name: Comprrobar estado de jenkins
+    - name: Comprobar estado de jenkins
       ansible.builtin.shell: systemctl status jenkins
       register: command_output
 
