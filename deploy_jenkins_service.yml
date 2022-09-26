@@ -8,21 +8,21 @@
         state: present
     
     - name:  installar llaves repo jenkins
-      ansible.builtin.shell: -fsSL https://pkg.jenkins.io/debian/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+      ansible.builtin.shell: curl -fsSL https://pkg.jenkins.io/debian/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
     
     - name: agregar llaves a lista de repo 
-      ansible.builtin.shell: echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]   https://pkg.jenkins.io/debian binary/ | sudo tee   /etc/apt/sources.list.d/jenkins.list > /dev/null
+      ansible.builtin.shell: echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]   https://pkg.jenkins.io/debian binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
 
     - name: actualizar lista de respo e upgradear 
       ansible.builtin.apt:
         upgrade: yes
         update_cache: yes
-        cache_valid_time: 86400 # Un dia
 
     - name: Instalar jenkins
       ansible.builtin.apt:
         name: jenkins
-        statte: latest
+        state: latest
+        force_apt_get: yes
     
     - name:  Instalar java
       ansible.builtin.apt:
