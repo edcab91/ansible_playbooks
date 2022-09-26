@@ -1,0 +1,44 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: instalar curl 
+      apt:
+        name: curl
+        state: present
+    
+    - name:  installar llaves repo jenkins
+      ansible.builtin.shell: -fsSL https://pkg.jenkins.io/debian/jenkins.io.key | sudo tee /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+    
+    - name: agregar llaves a lista de repo 
+      ansible.builtin.shell: echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc]   https://pkg.jenkins.io/debian binary/ | sudo tee   /etc/apt/sources.list.d/jenkins.list > /dev/null
+
+    - name: actualizar lista de respo e upgradear 
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+        cache_valid_time: 86400 # Un dia
+
+    - name: Instalar jenkins
+      ansible.builtin.apt:
+        name: jenkins
+        statte: latest
+    
+    - name:  Instalar java
+      ansible.builtin.apt:
+        name: openjdk-11-jre
+        state: latest
+    
+    - name: Habilitar jenkins para que arranque como servicio, al iniciar el sistema
+      ansible.builtin.shell: systemctl enable jenkins
+
+    - name: Iniciar jenkins
+      ansible.builtin.shell: systemctl start jenkins
+
+    - name: Comprrobar estado de jenkins
+      ansible.builtin.shell: systemctl status jenkins
+      register: command_output
+
+    - debug: 
+             var: command_output.stdout_lines
+             
