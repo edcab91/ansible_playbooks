@@ -2,9 +2,7 @@
 #Author: Edgardo Cabral
 #Fecha: 29/09/2022
 #Objetivo: Playbook Ansible para instalacion de Docker-Engine, CORE. // Tutorial realizadopara Ubuntu Server.
-
 #Version: 1.0
-
 - hosts: all 
   become: true
   tasks:
