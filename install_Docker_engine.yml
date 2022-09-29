@@ -5,7 +5,7 @@
 
 #Version: 1.0
 
-- host: all 
+- hosts: all 
   become: true
   tasks:
     #Preparar Servidor para descargar e instalar Docker.
@@ -53,4 +53,3 @@
 
     - debug:
              var: command_output.stdout_lines
-             
