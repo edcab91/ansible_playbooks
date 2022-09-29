@@ -41,4 +41,16 @@
       
     - name: Instalar docker Engine
       ansible.builtin.shell: sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-      
+
+    #Iniciar Docker Engine
+    - name: Iniciamos servicio docker
+      ansible.builtin.shell: service docker start
+
+    #Probamos Docker con docker con un hola mundo
+    - name: Descargar y corre hola mundo.
+      ansible.builtin.shell: docker run hello-world
+      register: command_output
+
+    - debug:
+             var: command_output.stdout_lines
+             
