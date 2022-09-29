@@ -1,0 +1,44 @@
+---
+#Author: Edgardo Cabral
+#Fecha: 29/09/2022
+#Objetivo: Playbook Ansible para instalacion de Docker-Engine, CORE. // Tutorial realizadopara Ubuntu Server.
+
+#Version: 1.0
+
+- host: all 
+  become: true
+  tasks:
+    #Preparar Servidor para descargar e instalar Docker.
+    - name: Actualizar apt
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+
+    - name: Insyala curl
+      ansible.builtin.apt:
+        name: curl
+        state: lastest    
+    
+    - name: Permitir repositorios sobre HTTPS.
+      ansible.builtin.shell: apt-get install ca-certificates curl gnupg lsb-release
+
+    - name: Crear carpeta para llaves de docker
+      ansible.builtin.file:
+        path: /etc/apt/keyrings
+        state: directory
+    
+    - name: copiar llaves
+      ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+      
+    - name:  Configura repositorios
+      ansible.builtin.shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+    
+    # Instalando Docker Engine
+    - name: Actualizar repos
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
+      
+    - name: Instalar docker Engine
+      ansible.builtin.shell: sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+      
