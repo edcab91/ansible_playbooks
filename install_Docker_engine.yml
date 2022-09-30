@@ -12,21 +12,28 @@
         upgrade: yes
         update_cache: yes
 
-    - name: Insyala curl
+    - name: Instala curl
       ansible.builtin.apt:
         name: curl
-        state: lastest    
+        state: present    
     
     - name: Permitir repositorios sobre HTTPS.
       ansible.builtin.shell: apt-get install ca-certificates curl gnupg lsb-release
 
     - name: Crear carpeta para llaves de docker
       ansible.builtin.file:
+        path: /etc/apt/
+        state: directory
+
+    - name: Crear carpeta para llaves de docker 2
+      ansible.builtin.file:
         path: /etc/apt/keyrings
         state: directory
-    
-    - name: copiar llaves
-      ansible.builtin.shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+    - name: Copiar llaver de docker al repo
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.gpg
       
     - name:  Configura repositorios
       ansible.builtin.shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
@@ -36,9 +43,14 @@
       ansible.builtin.apt:
         upgrade: yes
         update_cache: yes
-      
-    - name: Instalar docker Engine
-      ansible.builtin.shell: sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+
+    - name: instalar docker engine, agrupado
+      ansible.builtin.apt:
+        pkg:
+        - docker-ce
+        - docker-ce-cli
+        - containerd.io
+        - docker-compose-plugin
 
     #Iniciar Docker Engine
     - name: Iniciamos servicio docker
