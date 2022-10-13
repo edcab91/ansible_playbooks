@@ -44,10 +44,10 @@
         path: /etc/apt/keyrings
         state: directory
 
-    #- name: Copiar llaver de docker al repo
-    #  ansible.builtin.get_url:
-    #    url: https://download.docker.com/linux/ubuntu/gpg
-    #    dest: /etc/apt/keyrings/docker.gpg
+    - name: Copiar llaver de docker al repo
+      ansible.builtin.get_url:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        dest: /etc/apt/keyrings/docker.gpg
       
     - name:  Configura repositorios
       ansible.builtin.shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
