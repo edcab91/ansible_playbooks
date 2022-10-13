@@ -3,11 +3,11 @@
 - name: update & upgrade linux
   gather_facts: false
   hosts: all
-  remote_user: root
+  #remote_user: root
+  become: true
   tasks:
 
     - name: Actualizar apt
       ansible.builtin.apt:
         upgrade: yes
         update_cache: yes
-        
