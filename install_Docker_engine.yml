@@ -20,8 +20,6 @@
     - name: Permitir repositorios sobre HTTPS.
       ansible.builtin.apt:
          pkg:
-          - apt-get 
-          - install
           - ca-certificates
           - curl
           - gnupg
