@@ -7,10 +7,10 @@
   become: true
   tasks:
     #Preparar Servidor para descargar e instalar Docker.
-    #- name: Actualizar apt
-     # ansible.builtin.apt:
-      #  upgrade: yes
-       # update_cache: yes
+    - name: Actualizar apt
+      ansible.builtin.apt:
+        upgrade: yes
+        update_cache: yes
 
     - name: Instala curl
       ansible.builtin.apt:
