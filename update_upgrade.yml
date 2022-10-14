@@ -3,7 +3,6 @@
 - name: update & upgrade linux
   gather_facts: false
   hosts: all
-  #remote_user: root
   become: true
   tasks:
 
