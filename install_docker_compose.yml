@@ -10,13 +10,13 @@
       ansible.builtin.apt:
         update: yes
         update_cache: yes
-      
+    
     - name: instalar Compose plugin
       ansible.builtin.apt:
         pkg: 
          - docker-compose-plugin
-      state: latest
-      update_cache: yes
+        state: latest
+        update_cache: yes
 
     - name: test compose 
       ansible.builtin.shell: docker compose Version
