@@ -8,18 +8,18 @@
     #Actualizar repositorios
     - name: Actualizar apt
       ansible.builtin.apt:
-        update: yes
+        upgrade: yes
         update_cache: yes
     
     - name: instalar Compose plugin
       ansible.builtin.apt:
         pkg: 
+         - docker-compose
          - docker-compose-plugin
         state: latest
-        update_cache: yes
-
+        
     - name: test compose 
-      ansible.builtin.shell: docker compose Version
+      ansible.builtin.shell: "docker compose version"
       register: command_output
 
     - debug: 
